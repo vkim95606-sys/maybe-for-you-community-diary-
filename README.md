@@ -1,1 +1,124 @@
-# maybe-for-you-community-diary-
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Community Diary</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #e8f5e9;
+      padding: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      border-radius: 10px;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    button {
+      background: #2e7d32;
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .entry {
+      background: white;
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 10px;
+    }
+    .date {
+      font-size: 12px;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+
+<h2>🌿 Community Diary</h2>
+
+<textarea id="entryText" placeholder="Share your thoughts..."></textarea>
+<button onclick="saveEntry()">Post</button>
+
+<div id="entries"></div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    query,
+    orderBy
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCH0i8QFwxF5VqJ1tLQmDrJHorbmvDbJI8",
+    authDomain: "maybe-for-u-community-diary.firebaseapp.com"
+    projectId: "maybe-for-u-community-diary"
+  }; 
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.saveEntry = async function () {
+    const text = document.getElementById("entryText").value.trim();
+    if (!text) return;
+
+    await addDoc(collection(db, "entries"), {
+      text: text,
+      timestamp: Date.now(),
+      date: new Date().toLocaleString()
+    });
+
+    document.getElementById("entryText").value = "";
+    loadEntries();
+  };
+
+  window.saveEntry = function () {
+  alert("Button is working");
+};
+
+    const container = document.getElementById("entries");
+    container.innerHTML = "";
+
+    const q = query(
+      collection(db, "entries"),
+      orderBy("timestamp", "desc")
+    );
+
+    const snapshot = await getDocs(q);
+
+    snapshot.forEach(doc => {
+      const data = doc.data();
+
+      const div = document.createElement("div");
+      div.className = "entry";
+
+      const date = document.createElement("div");
+      date.className = "date";
+      date.textContent = data.date;
+
+      const p = document.createElement("p");
+      p.textContent = data.text;
+
+      div.appendChild(date);
+      div.appendChild(p);
+      container.appendChild(div);
+    });
+  };
+
+  loadEntries();
+</script>
+  function saveEntry() {
+    alert("POST BUTTON WORKS");
+  }
+</script>
+
+</body>
+</html>

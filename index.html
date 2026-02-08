@@ -58,10 +58,10 @@
   } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
   const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID"
-  };
+    apiKey: "AIzaSyCH0i8QFwxF5VqJ1tLQmDrJHorbmvDbJI8",
+    authDomain: "maybe-for-u-community-diary.firebaseapp.com"
+    projectId: "maybe-for-u-community-diary"
+  }; 
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
@@ -80,7 +80,10 @@
     loadEntries();
   };
 
-  window.loadEntries = async function () {
+  window.saveEntry = function () {
+  alert("Button is working");
+};
+
     const container = document.getElementById("entries");
     container.innerHTML = "";
 
